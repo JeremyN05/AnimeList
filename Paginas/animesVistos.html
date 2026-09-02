@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../CSS/estilos_animesVistos.css">
+        <title>Animes vistos</title>
+    </head>
+    <body>
+        <nav>
+            <a href="../index.html">Inicio</a>
+            <a class="actual" href="animesVistos.html">Animes vistos</a>
+            <a href="animesEnEmision.html">Animes en emisión</a>
+            <a href="animesPorVer.html">Animes por ver</a>
+            <a href="viendoAhora.html">Viendo ahora</a>
+        </nav>
+        <main>
+            <header>
+                <h1>Animes vistos</h1>
+                <p class="subtitulo">Animes que ya has terminado de ver</p>
+            </header>
+            <div class="cuadradosAnime" onclick="abrirVentanaModal()">
+                <div class="anime">
+                    <img id="imagen" alt="">
+                    <div class="infoAnime">
+                        <h2 id="titulo"></h2>
+                        <p id="anoEmision"></p>
+                        <p id="temporadas"></p>
+                        <p id="episodios"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-overlay">
+                <div class="modal">
+                    <div class="cuadradoAnimeGrande">
+                        <div class="animeCuadroGrande">
+                            <img id="imagenCuadroGrande" alt="">
+                            <div class="infoAnimeGrande">
+                                <h2 id="modalTitulo">asd</h2>
+                                <p id="modalAnoEmision">das</p>
+                                <p id="modalTemporadas">wegfs</p>
+                                <p id="modalEpisodios">savsda</p>
+                                <p id="modalPeliculas">sadvdsa</p>
+                                <p id="modalOvas">3fsadfs</p>
+                            </div>
+                        </div>
+                        <div class="cuadradoGeneros">
+                            <p id="generos">ads</p>
+                        </div>
+                        <div class="cuadroSinopsis">
+                            <p id="sinopsis">vdsaf</p>
+                        </div>
+                        <div class="contenRev_Vol">
+                            <p class="contRevisiones">Revisiones:</p>
+                            <p>Boton</p>
+                        </div>
+                        <div class="contenBoton">
+                            <button type="button" id="cerrar" onclick="cerrarVentanaModal()">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+         <script src="../Javascript/crearTarjetasAnime.js"></script>
+    </body>
+</html>

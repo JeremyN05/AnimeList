@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #000000, #440101, #000000);
+}
+
+nav {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: flex;
+    gap: 4vw;
+    background-color: black;
+    padding: 1.5vh 2vw;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    border: solid transparent;
+    font-size: clamp(20px, 2.0vw, 44px);
+}
+
+.actual{
+    border-bottom: 4px solid #300202;
+}
+
+header{
+    padding-left: 60px;
+    padding-top: 30px;
+}
+
+h1{
+    color: white;
+    font-size: clamp(22px, 4vw, 88px);
+    font-weight: bold;
+}
+
+.subtitulo{
+    color: white;
+    font-size: clamp(13px, 2vw, 52px);
+    font-weight: bold;
+}
+
+.cuadradosAnime{
+    padding-left: 60px;
+    padding-top: 30px;
+}
+
+.anime{
+    display: flex;
+    border: solid white;
+    width: 450px;
+    height: 200px;
+    background: linear-gradient(to right, #000000, #440101);
+}
+
+.infoAnime{
+    color: white;
+    font-size: clamp(25px, 1vw, 38px);
+    font-weight: bold;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+img{
+    padding: 10px;
+}
+
+.modal-overlay { 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(0,0,0,.65); 
+    backdrop-filter: blur(5px); 
+    z-index: 100; 
+    display: flex; 
+    align-items: center; 
+    justify-content: 
+    center; padding: 20px; 
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity .2s; 
+}
+
+.modal-overlay.open { 
+    opacity: 1; 
+    pointer-events: all; 
+}
+
+.modal {
+    background: var(--fondo-oscuro); 
+    border: 1px solid crimson; 
+    border-radius: 18px; 
+    padding: 28px; 
+    width: 150%; 
+    height: 150%;
+    max-width: 700px; 
+    max-height: 80vh;
+    box-shadow: 0 24px 64px rgba(0,0,0,.5); 
+    transform: translateY(16px); 
+    transition: transform .2s; 
+}
+
+.modal-cerrar { 
+    width: 28px; 
+    height: 28px; 
+    border-radius: 50%; 
+    background: color-mix(in srgb, var(--texto) 8%, transparent); 
+    border: none; cursor: pointer; color: var(--texto-suave); 
+    font-size: 14px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
