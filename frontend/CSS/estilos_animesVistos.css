@@ -78,6 +78,10 @@ h1 {
 .cuadradosAnime {
     padding-left: 60px;
     padding-top: 30px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .anime {
