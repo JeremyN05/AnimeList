@@ -17,8 +17,12 @@ function crearTarjetasAnime(idAnime){
 
             const temporadas = await obtenerTemporadas(idAniList.id);
             const episodios = await obtenerEpisodios(idAniList.id);
+            const peliculas = await obtenerPeliculas(idAniList.id);
+            const ovas = await obtenerOvas(idAniList.id);
 
             console.log("TEMPORADAS QUE VOY A MOSTRAR:", temporadas);
+            console.log("PELÍCULAS QUE VOY A MOSTRAR:", peliculas);
+            console.log("OVAS QUE VOY A MOSTRAR:", ovas);
 
             console.log(datos);
 
@@ -276,6 +280,199 @@ async function obtenerEpisodios(idAnime){
     console.log("Total de Episodios:", episodiosTotales);
 
     return episodiosTotales;
+
+}
+
+async function obtenerPeliculas(idAnime){
+    
+    // Consulta GraphQL que enviaremos a AniList
+    const consulta = `
+
+        query ($id: Int!){
+
+            Media(id: $id, type: ANIME) {
+
+            episodes
+
+                # Obtenemos las relaciones que tiene este anime
+                relations{ 
+
+                    # Cada relación se encuentra dentro de edges
+                    edges{
+                        
+                        # Indica el tipo de relación:
+                        # SEQUEL, PREQUEL, SIDE_STORY, etc.
+                        relationType
+
+                        node{
+                            id
+                            format
+                            status
+                            episodes
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    `;
+
+    let idActual = idAnime;
+    let peliculastotales = 0;
+    let peliculasEncontradas = [];
+
+    while (idActual !== null) {
+
+        const respuesta = await fetch("https://graphql.anilist.co", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+
+        body: JSON.stringify({
+            query: consulta,
+            variables: {
+                id: idActual
+            }
+        })
+    });
+
+    const datos = await respuesta.json();
+
+    const relaciones = datos.data.Media.relations.edges;
+
+    let peliEncontrada = false;
+
+    for (const relacion of relaciones) {
+
+        if (relacion.node.format === "MOVIE") {
+
+                if (!peliculasEncontradas.includes(relacion.node.id)) {
+
+                    peliculasEncontradas.push(relacion.node.id);
+                    peliculastotales++;
+
+                    console.log("Película encontrada:", relacion.node.id);
+                    console.log("Películas totales:", peliculastotales);
+                }
+            }
+
+            if (relacion.relationType === "SEQUEL" &&
+                relacion.node.format === "TV" &&
+                relacion.node.status === "FINISHED") {
+
+                idActual = relacion.node.id;
+                peliEncontrada = true;
+            }
+        }
+
+        if (peliEncontrada === false) {
+            idActual = null;
+        }
+    }
+
+    return peliculastotales;
+
+}
+
+async function obtenerOvas(idAnime) {
+
+    const consulta = `
+
+        query ($id: Int!){
+
+            Media(id: $id, type: ANIME) {
+
+            episodes
+
+                # Obtenemos las relaciones que tiene este anime
+                relations{ 
+
+                    # Cada relación se encuentra dentro de edges
+                    edges{
+                        
+                        # Indica el tipo de relación:
+                        # SEQUEL, PREQUEL, SIDE_STORY, etc.
+                        relationType
+
+                        node{
+                            id
+                            format
+                            status
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    `;
+
+
+    let idActual = idAnime;
+    let ovasTotales = 0;
+    let ovasEncontrados = [];
+
+    while (idActual !== null) {
+
+        const respuesta = await fetch("https://graphql.anilist.co", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+
+            body: JSON.stringify({
+            query: consulta,
+                variables: {
+                    id: idActual
+                }
+            })
+        });
+
+        const datos = await respuesta.json();
+
+        const relaciones = datos.data.Media.relations.edges;
+
+        let ovaEncontrado = false;
+
+        for (const relacion of relaciones) {
+
+            if (relacion.node.format === "OVA" || relacion.node.format === "ONA") {
+
+                    if (!ovasEncontrados.includes(relacion.node.id)) {
+
+                        ovasEncontrados.push(relacion.node.id);
+                        ovasTotales++;
+
+                        console.log("Ova encontrado:", relacion.node.id);
+                        console.log("Ovas totales:", ovasTotales);
+                    }
+                }
+
+            if (relacion.relationType === "SEQUEL" &&
+                relacion.node.format === "TV" &&
+                relacion.node.status === "FINISHED") {
+
+                idActual = relacion.node.id;
+                ovaEncontrado = true;
+            }
+        }
+
+        if (ovaEncontrado === false) {
+            idActual = null;
+        }
+    }
+
+    return ovasTotales
 
 }
 
